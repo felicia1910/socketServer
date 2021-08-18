@@ -32,6 +32,10 @@ app.listen(port, function () {
     console.log('API listening on *:' + port);
 });
 
+app.get('', function (req, res, next) {
+    res.json({ msg: 'Home' })
+})
+
 app.get('/products', function (req, res, next) {
     res.json({ msg: 'This is CORS-enabled for all origins!' })
 })
