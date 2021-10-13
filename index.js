@@ -129,9 +129,9 @@ let dataVeiw = {
                     statusText: '這是測試客人的狀態',
                     userId: '321',//U2f246c610be7fe3e6e86cdaeda6c8963
                     chating: [
-                        { id: 1, type: 'text', mes: '你好', time: '20211007T10:00:00', isUser: true },
-                        { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00', isUser: true },
-                        { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00', isUser: false },
+                        { id: 1, type: 'text', mes: '你好!!!!!', time: '20211009T10:00:00Z', isUser: true },
+                        { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00Z', isUser: true },
+                        { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00Z', isUser: false },
                     ]
                 },
                 {
@@ -141,9 +141,9 @@ let dataVeiw = {
                     statusText: '這是測試客人的狀態',
                     userId: 'U51d16c833b201e6ce6173fdb76284bb8',
                     chating: [
-                        { id: 1, type: 'text', mes: '你好', time: '20211007T10:00:00', isUser: true },
-                        { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00', isUser: true },
-                        { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00', isUser: false },
+                        { id: 1, type: 'text', mes: '你好', time: '20211005T10:00:00Z', isUser: true },
+                        { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00Z', isUser: true },
+                        { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00Z', isUser: false },
                     ]
                 },
                 {
@@ -153,9 +153,9 @@ let dataVeiw = {
                     statusText: '這是測試客人的狀態',
                     userId: 'U8e6418328c28ac0aa4b07a630e7f2eea',
                     chating: [
-                        { id: 1, type: 'text', mes: '你好', time: '20211007T10:00:00', isUser: true },
-                        { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00', isUser: true },
-                        { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00', isUser: false },
+                        { id: 1, type: 'text', mes: '你好', time: '20211006T10:00:00Z', isUser: true },
+                        { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00Z', isUser: true },
+                        { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00Z', isUser: false },
                     ]
                 },
             ]
@@ -189,7 +189,7 @@ let dataVeiw = {
                     statusText: '這是測試客人的狀態',
                     userId: '',
                     chating: [
-                        { id: 1, type: 'text', mes: '你好', time: '20211007T10:00:00', isUser: true },
+                        { id: 1, type: 'text', mes: '你好阿', time: '20211004T10:00:00', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '20211007T10:10:00', isUser: true },
                         { id: 3, type: 'text', mes: '不給問喔', time: '20211007T11:00:00', isUser: false },
                     ]
