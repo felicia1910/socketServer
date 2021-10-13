@@ -24,7 +24,8 @@ var io = socketio(server, {
 //用 socket 方式取得
 io.on('connection', function (socket) {
     console.log('user connected')
-    socket.emit("allMessage", dataVeiw)
+    socket.emit("allMessage", dataVeiw);
+    socket.emit("allDrop",allDrop);
 
     socket.on("sendMessage", function (mes) {
         console.log('傳過來的訊息', mes);
@@ -34,47 +35,51 @@ io.on('connection', function (socket) {
                 //先判定有沒有該客人的資料
                 let findCus = dataVeiw.chat[0].customer.map(e => { return e.userId }).indexOf(mes.userId);
                 //推進去的聊天內容
-                let pushChat=(mess,isUser)=>{
-                    return{
-                        id: mess.textId, 
-                        type: mess.type, 
-                        mes: mess.message, 
-                        time: new Date(mess.timestamp + 8 * 3600 * 1000), 
+                let pushChat = (mess, isUser) => {
+                    return {
+                        id: mess.textId,
+                        type: mess.type,
+                        mes: mess.message,
+                        //這邊先將stratTime都攔截下來看是否尾端有Z(有Z會被轉時區，需要先刪除Z) 
+                        time: new Date(mess.timestamp + 8 * 3600 * 1000).split("Z")[0],
                         isUser: isUser
                     }
                 }
 
                 //有客人的話
                 if (findCus !== -1) {
-                    console.log('findCus',findCus)
-                    console.log('?',dataVeiw.chat[0].customer[findCus])
-                    dataVeiw.chat[0].customer[findCus].name=mes.name;
-                    dataVeiw.chat[0].customer[findCus].picUrl=mes.pic;
-                    dataVeiw.chat[0].customer[findCus].statusText=mes.st;
-                    dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes,true));
+                    console.log('findCus', findCus)
+                    console.log('?', dataVeiw.chat[0].customer[findCus])
+                    dataVeiw.chat[0].customer[findCus].name = mes.name;
+                    dataVeiw.chat[0].customer[findCus].picUrl = mes.pic;
+                    dataVeiw.chat[0].customer[findCus].statusText = mes.st;
+                    dataVeiw.chat[0].customer[findCus].over = 0;//有新留言要讓他成為非結案(非結案:0，處理中:1,結案:2)
+                    dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes, true));
                     io.emit("newMessage", {
-                        isNew:false,
-                        mes:pushChat(mes,true),
-                        data:dataVeiw.chat[0].customer[findCus]
+                        isNew: false,
+                        mes: pushChat(mes, true),
+                        data: dataVeiw.chat[0].customer[findCus]
                     });
                 }
 
                 //沒有該客人
                 else {
-                    let newCus={
+                    let newCus = {
                         name: mes.name,
                         tagName: '',//給使用者標記的名字
                         picUrl: mes.pic,
                         statusText: mes.st,
                         userId: mes.userId,
                         whatName: 'Line',
-                        id:1,
-                        chating: [pushChat(mes,true)]
+                        over: 0,
+                        who: '',//哪個人員在處理
+                        id: 1,
+                        chating: [pushChat(mes, true)]
                     }
                     dataVeiw.chat[0].customer.push(newCus)
                     io.emit("newMessage", {
-                        isNew:true,
-                        mes:newCus
+                        isNew: true,
+                        mes: newCus
                     });
                 }
             }
@@ -115,6 +120,17 @@ const idVeiw = [
     { name: 'Facebook', id: 2 },
     { name: '客製化聊天室', id: 3 },
 ]
+
+const status = [
+    { name: '待處理', id: 0 },
+    { name: '處理中', id: 1 },
+    { name: '已結束', id: 2 }
+]
+
+const allDrop={
+    chat:idVeiw,
+    status:status
+}
 
 let dataVeiw = {
     chat: [
