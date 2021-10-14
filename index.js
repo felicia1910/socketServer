@@ -116,7 +116,7 @@ const callToLine = (req) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: req.id,
+            id: req.userId,
             mes: req.message
         })
     }).then((response) => {
