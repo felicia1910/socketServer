@@ -46,14 +46,12 @@ io.on('connection', function (socket) {
                 let findCus = dataVeiw.chat[0].customer.map(e => { return e.userId }).indexOf(mes.userId);
                 //推進去的聊天內容
                 let pushChat = (mess, isUser) => {
-                    let time=new Date(mess.timestamp + 8 * 3600 * 1000);
-                    let timeSp=time?String(time).split("Z")[0]:time;
                     return {
                         id: mess.textId,
                         type: mess.type,
                         mes: mess.message,
                         //這邊先將stratTime都攔截下來看是否尾端有Z(有Z會被轉時區，需要先刪除Z) 
-                        time: timeSp,
+                        time: new Date(mess.timestamp + 8 * 3600 * 1000),
                         isUser: isUser
                     }
                 }
