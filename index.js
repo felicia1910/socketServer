@@ -83,6 +83,7 @@ io.on('connection', function (socket) {
                         whatName: 'Line',
                         over: 0,
                         who: '',//哪個人員在處理
+                        block:false,//該客人是否被黑單
                         id: 1,
                         chating: [pushChat(mes, true)]
                     }
@@ -149,12 +150,17 @@ let dataVeiw = {
             name: 'Line',
             id: 1,
             customer: [
-                {
+                {   
                     name: '客人A',
                     tagName: '毛很多的客人',//給使用者標記的名字
                     picUrl: 'https://google.com',
                     statusText: '這是測試客人的狀態',
                     userId: '321',//U2f246c610be7fe3e6e86cdaeda6c8963
+                    whatName: 'Line',
+                    over: 0,
+                    who: '老王',//哪個人員在處理
+                    block:false,//該客人是否被黑單
+                    id: 1,
                     chating: [
                         { id: 1, type: 'text', mes: '你好!!!!!', time: '2021-10-09T10:00:00Z', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00Z', isUser: true },
@@ -166,7 +172,11 @@ let dataVeiw = {
                     tagName: '朋友A',//給使用者標記的名字
                     picUrl: 'https://google.com',
                     statusText: '這是測試客人的狀態',
-                    userId: 'U51d16c833b201e6ce6173fdb76284bb8',
+                    userId: '732',//U51d16c833b201e6ce6173fdb76284bb8
+                    whatName: 'Line',
+                    over: 0,
+                    who: '老王',//哪個人員在處理
+                    block:false,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好', time: '2021-10-05T10:00:00Z', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00Z', isUser: true },
@@ -179,6 +189,10 @@ let dataVeiw = {
                     picUrl: 'https://google.com',
                     statusText: '這是測試客人的狀態',
                     userId: 'U8e6418328c28ac0aa4b07a630e7f2eea',
+                    whatName: 'Line',
+                    over: 1,
+                    who: '老王',//哪個人員在處理
+                    block:false,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好', time: '2021-10-06T10:00:00Z', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00Z', isUser: true },
@@ -196,7 +210,11 @@ let dataVeiw = {
                     tagName: '毛很多的客人',//給使用者標記的名字
                     picUrl: 'https://google.com',
                     statusText: '這是測試客人的狀態',
-                    userId: '',
+                    userId: '33',
+                    whatName: 'Line',
+                    over: 2,
+                    who: '老王',//哪個人員在處理
+                    block:false,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好', time: '2021-10-07T10:00:00', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00', isUser: true },
@@ -214,7 +232,11 @@ let dataVeiw = {
                     tagName: '手機很多的客人',//給使用者標記的名字
                     picUrl: 'https://google.com',
                     statusText: '這是測試客人的狀態',
-                    userId: '',
+                    userId: '6321',
+                    whatName: 'Line',
+                    over: 2,
+                    who: '老陳',//哪個人員在處理
+                    block:true,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好阿', time: '2021-10-04T10:00:00', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00', isUser: true },
