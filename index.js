@@ -25,7 +25,7 @@ var io = socketio(server, {
 io.on('connection', function (socket) {
     console.log('user connected')
     socket.emit("allMessage", dataVeiw);
-    socket.emit("allDrop",allDrop);
+    socket.emit("allDrop", allDrop);
 
     socket.on("sendMessage", function (mes) {
         console.log('傳過來的訊息', mes);
@@ -96,7 +96,8 @@ io.on('connection', function (socket) {
 })
 
 const callToLine = (req) => {
-    let url = 'http://localhost:4010/pushMes'//'https://socket-line-test.herokuapp.com/pushMes';
+    //let url = 'http://localhost:4010/pushMes';
+    let url = 'https://socket-line-test.herokuapp.com/pushMes';
     fetch(url, {
         method: 'POST',
         headers: {
@@ -127,9 +128,9 @@ const status = [
     { name: '已結束', id: 2 }
 ]
 
-const allDrop={
-    chat:idVeiw,
-    status:status
+const allDrop = {
+    chat: idVeiw,
+    status: status
 }
 
 let dataVeiw = {
