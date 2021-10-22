@@ -12,8 +12,8 @@ app.use(cors());
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", " * ");
     res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
     );
     next();
 });
@@ -31,6 +31,10 @@ var io = socketio(server, {
     }
 });
 
+const catchSticker = (mes) => {
+    console.log('mes?', mes)
+}
+
 //用 socket 方式取得
 io.on('connection', function (socket) {
     console.log('user connected')
@@ -40,26 +44,28 @@ io.on('connection', function (socket) {
     socket.on("sendMessage", function (mes) {
         console.log('傳過來的訊息', mes);
         if (mes.which == 1) {
+            //先判定有沒有該客人的資料
+            let findCus = dataVeiw.chat[0].customer.map(e => { return e.userId }).indexOf(mes.userId);
+            console.log('findCus', findCus)
+            console.log('?', dataVeiw.chat[0].customer[findCus])
+            //推進去的聊天內容
+            let pushChat = (mess, isUser) => {
+                return {
+                    id: mess.textId,
+                    type: mess.type,
+                    mes: isUser ? mess.message : mess.mes,
+                    emojis:mess.emojis?mess.emojis:null,
+                    imgType:mess.imgType?mess.imgType:null,
+                    //這邊先將stratTime都攔截下來看是否尾端有Z(有Z會被轉時區，需要先刪除Z) 
+                    time: isUser ? new Date(mess.timestamp + 8 * 3600 * 1000) : new Date() + 8 * 3600 * 1000,
+                    isUser: isUser
+                }
+            }
             //客人傳來的
             if (mes.user) {
-                //先判定有沒有該客人的資料
-                let findCus = dataVeiw.chat[0].customer.map(e => { return e.userId }).indexOf(mes.userId);
-                //推進去的聊天內容
-                let pushChat = (mess, isUser) => {
-                    return {
-                        id: mess.textId,
-                        type: mess.type,
-                        mes: mess.message,
-                        //這邊先將stratTime都攔截下來看是否尾端有Z(有Z會被轉時區，需要先刪除Z) 
-                        time: new Date(mess.timestamp + 8 * 3600 * 1000),
-                        isUser: isUser
-                    }
-                }
-
                 //有客人的話
                 if (findCus !== -1) {
-                    console.log('findCus', findCus)
-                    console.log('?', dataVeiw.chat[0].customer[findCus])
+
                     dataVeiw.chat[0].customer[findCus].name = mes.name;
                     dataVeiw.chat[0].customer[findCus].picUrl = mes.pic;
                     dataVeiw.chat[0].customer[findCus].statusText = mes.st;
@@ -70,6 +76,7 @@ io.on('connection', function (socket) {
                         mes: pushChat(mes, true),
                         data: dataVeiw.chat[0].customer[findCus]
                     });
+
                 }
 
                 //沒有該客人
@@ -83,20 +90,28 @@ io.on('connection', function (socket) {
                         whatName: 'Line',
                         over: 0,
                         who: '',//哪個人員在處理
-                        block:false,//該客人是否被黑單
+                        block: false,//該客人是否被黑單
                         id: 1,
                         chating: [pushChat(mes, true)]
                     }
+
                     dataVeiw.chat[0].customer.push(newCus)
                     io.emit("newMessage", {
                         isNew: true,
                         mes: newCus
                     });
+
                 }
             }
             //使用者回傳給客人的
             else {
-                callToLine(mes.user);//告訴line
+                callToLine(mes);//告訴line
+                dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes, false));
+                io.emit("newMessage", {
+                    isNew: false,
+                    mes: pushChat(mes, false),
+                    data: dataVeiw.chat[0].customer[findCus]
+                });
             }
 
 
@@ -107,8 +122,8 @@ io.on('connection', function (socket) {
 })
 
 const callToLine = (req) => {
-    //let url = 'http://localhost:4010/pushMes';
-    let url = 'https://socketio-server-testing.herokuapp.com/pushMes';
+    let url = 'http://localhost:4000/pushMes';
+    //let url = 'https://socketio-server-testing.herokuapp.com/pushMes';
     fetch(url, {
         method: 'POST',
         headers: {
@@ -117,7 +132,7 @@ const callToLine = (req) => {
         },
         body: JSON.stringify({
             id: req.userId,
-            mes: req.message
+            mes: req.mes
         })
     }).then((response) => {
         return response.json();
@@ -150,7 +165,7 @@ let dataVeiw = {
             name: 'Line',
             id: 1,
             customer: [
-                {   
+                {
                     name: '客人A',
                     tagName: '毛很多的客人',//給使用者標記的名字
                     picUrl: 'https://google.com',
@@ -159,7 +174,7 @@ let dataVeiw = {
                     whatName: 'Line',
                     over: 0,
                     who: '老王',//哪個人員在處理
-                    block:false,//該客人是否被黑單
+                    block: false,//該客人是否被黑單
                     id: 1,
                     chating: [
                         { id: 1, type: 'text', mes: '你好!!!!!', time: '2021-10-09T10:00:00Z', isUser: true },
@@ -176,7 +191,7 @@ let dataVeiw = {
                     whatName: 'Line',
                     over: 0,
                     who: '老王',//哪個人員在處理
-                    block:false,//該客人是否被黑單
+                    block: false,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好', time: '2021-10-05T10:00:00Z', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00Z', isUser: true },
@@ -192,7 +207,7 @@ let dataVeiw = {
                     whatName: 'Line',
                     over: 1,
                     who: '老王',//哪個人員在處理
-                    block:false,//該客人是否被黑單
+                    block: false,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好', time: '2021-10-06T10:00:00Z', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00Z', isUser: true },
@@ -214,7 +229,7 @@ let dataVeiw = {
                     whatName: 'Line',
                     over: 2,
                     who: '老王',//哪個人員在處理
-                    block:false,//該客人是否被黑單
+                    block: false,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好', time: '2021-10-07T10:00:00', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00', isUser: true },
@@ -236,7 +251,7 @@ let dataVeiw = {
                     whatName: 'Line',
                     over: 2,
                     who: '老陳',//哪個人員在處理
-                    block:true,//該客人是否被黑單
+                    block: true,//該客人是否被黑單
                     chating: [
                         { id: 1, type: 'text', mes: '你好阿', time: '2021-10-04T10:00:00', isUser: true },
                         { id: 2, type: 'text', mes: '想請問一下', time: '2021-10-07T10:10:00', isUser: true },
