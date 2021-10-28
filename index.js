@@ -53,7 +53,7 @@ io.on('connection', function (socket) {
                 emojis: mess.emojis ? mess.emojis : null,
                 imgType: mess.imgType ? mess.imgType : null,
                 //這邊先將stratTime都攔截下來看是否尾端有Z(有Z會被轉時區，需要先刪除Z) 
-                time: isUser ? new Date(mess.timestamp + 8 * 3600 * 1000) : new Date() + 8 * 3600 * 1000,
+                time: isUser && mess.timestamp ? new Date(mess.timestamp + 8 * 3600 * 1000) : new Date() + 8 * 3600 * 1000,
                 isUser: isUser
             }
         }
