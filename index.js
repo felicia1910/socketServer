@@ -49,7 +49,7 @@ io.on('connection', function (socket) {
             return {
                 id: mess.textId,
                 type: mess.type,
-                mes: isUser ? mess.message : mess.mes,
+                mes: isUser && mess.message ? mess.message : mess.mes,
                 emojis: mess.emojis ? mess.emojis : null,
                 imgType: mess.imgType ? mess.imgType : null,
                 //這邊先將stratTime都攔截下來看是否尾端有Z(有Z會被轉時區，需要先刪除Z) 
