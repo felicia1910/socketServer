@@ -129,7 +129,7 @@ io.on('connection', function (socket) {
             //客人傳訊息
             if(mes.user){
                 //已經有這客人
-                if(findCus){
+                if(findCus !== -1){
                     dataVeiw.chat[2].customer[findCus].chating.push(pushChat(mes, mes.user));
                     io.emit("newMessage", {
                         isNew: false,
