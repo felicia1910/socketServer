@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
                     dataVeiw.chat[0].customer[findCus].picUrl = mes.pic;
                     dataVeiw.chat[0].customer[findCus].statusText = mes.st;
                     dataVeiw.chat[0].customer[findCus].over = 0; //有新留言要讓他成為非結案(非結案:0，處理中:1,結案:2)
-                    dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes, true));
+                    dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes, mes.user));
                     io.emit("newMessage", {
                         isNew: false,
                         mes: pushChat(mes, true),
@@ -108,7 +108,7 @@ io.on('connection', function (socket) {
             //使用者回傳給客人的
             else {
                 callToLine(mes); //告訴line
-                dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes, false));
+                dataVeiw.chat[0].customer[findCus].chating.push(pushChat(mes, mes.user));
                 io.emit("newMessage", {
                     isNew: false,
                     mes: pushChat(mes, false),
@@ -126,12 +126,49 @@ io.on('connection', function (socket) {
             }).indexOf(mes.userId);
             console.log('findCus', findCus)
 
-            dataVeiw.chat[2].customer[findCus].chating.push(pushChat(mes, false));
-            io.emit("newMessage", {
-                isNew: false,
-                mes: pushChat(mes, false),
-                data: dataVeiw.chat[0].customer[findCus]
-            });
+            //客人傳訊息
+            if(mes.user){
+                //已經有這客人
+                if(findCus){
+                    dataVeiw.chat[2].customer[findCus].chating.push(pushChat(mes, mes.user));
+                    io.emit("newMessage", {
+                        isNew: false,
+                        mes: pushChat(mes, mes.user),
+                        data: dataVeiw.chat[0].customer[findCus]
+                    });  
+                }
+                //沒有該客人
+                else{
+                    let newCus = {
+                        name: mes.name,
+                        tagName: '', //給使用者標記的名字
+                        picUrl: 'https://recreation.ucsd.edu/wp-content/uploads/2018/03/profile-pick.jpg',
+                        statusText: mes.st,
+                        userId: mes.userId,
+                        whatName: '客製化聊天室',
+                        over: 0,
+                        who: '', //哪個人員在處理
+                        block: false, //該客人是否被黑單
+                        id: 3,
+                        chating: [pushChat(mes, mes.user)]
+                    }
+
+                    dataVeiw.chat[2].customer.push(newCus)
+                    io.emit("newMessage", {
+                        isNew: true,
+                        mes: newCus
+                    });
+                }
+            }else{
+                dataVeiw.chat[2].customer[findCus].chating.push(pushChat(mes, mes.user));
+                io.emit("newMessage", {
+                    isNew: false,
+                    mes: pushChat(mes, mes.user),
+                    data: dataVeiw.chat[2].customer[findCus]
+                });
+            }
+
+
         }
         //messages.push(message);
     })
