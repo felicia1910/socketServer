@@ -243,7 +243,7 @@ let dataVeiw = {
             customer: [{
                     name: '客人A',
                     tagName: '毛很多的客人', //給使用者標記的名字
-                    picUrl: 'https://google.com',
+                    picUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
                     statusText: '這是測試客人的狀態',
                     userId: '321', //U2f246c610be7fe3e6e86cdaeda6c8963
                     whatName: 'Line',
@@ -277,7 +277,7 @@ let dataVeiw = {
                 {
                     name: '客人B',
                     tagName: '朋友A', //給使用者標記的名字
-                    picUrl: 'https://google.com',
+                    picUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
                     statusText: '這是測試客人的狀態',
                     userId: '732', //U51d16c833b201e6ce6173fdb76284bb8
                     whatName: 'Line',
@@ -310,7 +310,7 @@ let dataVeiw = {
                 {
                     name: '客人C',
                     tagName: '朋友B', //給使用者標記的名字
-                    picUrl: 'https://google.com',
+                    picUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
                     statusText: '這是測試客人的狀態',
                     userId: 'U8e6418328c28ac0aa4b07a630e7f2eea',
                     whatName: 'Line',
@@ -348,7 +348,7 @@ let dataVeiw = {
             customer: [{
                 name: '客人FB',
                 tagName: '毛很多的客人', //給使用者標記的名字
-                picUrl: 'https://google.com',
+                picUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
                 statusText: '這是測試客人的狀態',
                 userId: '33',
                 whatName: 'Line',
@@ -385,7 +385,7 @@ let dataVeiw = {
             customer: [{
                 name: '路邊的客人',
                 tagName: '手機很多的客人', //給使用者標記的名字
-                picUrl: 'https://google.com',
+                picUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
                 statusText: '這是測試客人的狀態',
                 userId: '6321',
                 whatName: 'Line',
