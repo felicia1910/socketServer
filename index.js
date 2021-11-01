@@ -184,7 +184,7 @@ io.on('connection', function (socket) {
 
 const callToLine = (req) => {
     //let url = 'http://localhost:4000/pushMes';
-    let url = 'https://socketio-server-testing.herokuapp.com/pushMes';
+    let url = 'https://socket-line-test.herokuapp.com/pushMes';
     fetch(url, {
         method: 'POST',
         headers: {
