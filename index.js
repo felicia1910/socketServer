@@ -130,8 +130,8 @@ io.on('connection', function (socket) {
             if(mes.user){
                 //已經有這客人
                 if(findCus !== -1){
-                    console.log('??？？？',pushChat(mes, mes.user));
                     let getMes=pushChat(mes, mes.user);
+                    dataVeiw.chat[2].customer[findCus].over = 0; //有新留言要讓他成為非結案(非結案:0，處理中:1,結案:2)
                     dataVeiw.chat[2].customer[findCus].chating.push(getMes);
                     io.emit("newMessage", {
                         isNew: false,
@@ -163,7 +163,7 @@ io.on('connection', function (socket) {
                 }
             }else{
                 dataVeiw.chat[2].customer[findCus].chating.push(pushChat(mes, mes.user));
-                console.log('??',pushChat(mes, mes.user));
+                dataVeiw.chat[2].customer[findCus].over = 0;
                 io.emit("newMessage", {
                     isNew: false,
                     mes: pushChat(mes, mes.user),
